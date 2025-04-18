@@ -46,3 +46,22 @@ class Rating(models.Model):
     
     def __str__(self):
         return f"{self.user.username} rateed {self.rate} to {self.recipe.title}" 
+
+
+class MealPlan(models.Model):
+    
+    class DayOfWeek(models.TextChoices):
+        MONDAY = 'MON', 'Monday'
+        TUESDAY = 'TUE', 'Tuesday'
+        WEDNESDAY = 'WED', 'Wednesday'
+        THURSDAY = 'THU', 'Thursday'
+        FRIDAY = 'FRI', 'Friday'
+        SATURDAY = 'SAT', 'Saturday'
+        SUNDAY = 'SUN', 'Sunday'
+        
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="meal_plans_recipe")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="meal_plans_user")
+    day = models.CharField(max_length=3, choices=DayOfWeek.choices)
+    create_at = models.DateTimeField(auto_now=True)
+    
+    
