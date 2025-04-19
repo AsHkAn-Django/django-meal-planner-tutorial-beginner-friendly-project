@@ -16,7 +16,7 @@ class Recipe(models.Model):
     title = models.CharField(max_length=264)
     instruction = models.CharField(max_length=264)
     picture = models.ImageField(upload_to='images/')    
-    ingredients = models.ManyToManyField(Ingredient, related_name='recipes')
+    ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
 
     def get_average_rating(self):
         ratings = self.ratings.all()
@@ -36,6 +36,20 @@ class Recipe(models.Model):
     def __str__(self):
         return self.title    
     
+
+class RecipeIngredient(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='recipe_ingredients')
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+    amount = models.CharField(max_length=100)  
+    order = models.PositiveIntegerField()  
+
+    class Meta:
+        unique_together = (('recipe', 'ingredient'),)
+        ordering = ['order']  # Ensure the default ordering by the order field
+
+    def __str__(self):
+        return f"{self.amount} {self.ingredient.title} in {self.recipe.title}"
+
 
 class Rating(models.Model):
     rate = models.DecimalField(max_digits=2, decimal_places=1, validators=[MaxValueValidator(5.0), MinValueValidator(1.0)])
@@ -59,9 +73,15 @@ class MealPlan(models.Model):
         SATURDAY = 'SAT', 'Saturday'
         SUNDAY = 'SUN', 'Sunday'
         
+    class MealSlot(models.TextChoices):
+        BREAKFAST = 'BF', 'Breakfast'
+        LUNCH     = 'LU', 'Lunch'
+        DINNER    = 'DI', 'Dinner'
+        
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="meal_plans_recipe")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="meal_plans_user")
     day = models.CharField(max_length=3, choices=DayOfWeek.choices)
-    create_at = models.DateTimeField(auto_now=True)
-    
+    slot    = models.CharField(max_length=2, choices=MealSlot.choices)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)    
     
