@@ -27,6 +27,11 @@ class AddIngredientView(generic.CreateView):
     success_url = reverse_lazy('myApp:add_ingredient')
     
     def form_valid(self, form):
+        category_name = form.cleaned_data.get('title')
+        if Ingredient.objects.filter(title__iexact=category_name).exists():
+            form.add_error('title', 'This ingridient already exists.')
+            messages.warning(self.request, 'Duplicate ingredient!')
+            return self.form_invalid(form)
         # If the form was valid show the user a success message.
         messages.success(self.request, 'The ingredient has been added successfully.')
         return super().form_valid(form)
