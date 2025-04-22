@@ -128,3 +128,14 @@ class WeeklyRecipePlan(generic.ListView):
     ordering = ['day']
     context_object_name = 'meals'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        meals = Recipe.objects.filter(meal_plans_recipe__user=self.request.user)
+        context['shopping_list']= meals.values_list('recipe_ingredients__amount', 'recipe_ingredients__ingredient__title')
+        return context               
+    
+    
+    # TODO: calculate the total amount of groceries and add them to an object in get context
+    # get all the objects of mealplans for this user
+    # get all the ingredients and amounts 
+    # list them all and display them in order

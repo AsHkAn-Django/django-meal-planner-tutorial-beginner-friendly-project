@@ -2,7 +2,7 @@
 
 
 {% block content %}
-    
+    <h2>weekly plan</h2>
     {% for meal in meals %}
         <h4>{{meal.get_day_display}}</h4>
         <h5>{{meal.get_slot_display}}</h5>
@@ -10,6 +10,12 @@
     {% endfor %}
 
     <a class="my-5" href="{% url 'myApp:add_meal_plan' %}">Add a Meal</a>
+   
+    <h2>shpping list</h2>
     
+    {% for amount, ingredient in shopping_list %}
+        <h4>{{amount}} X {{ingredient}}</h4>
+    {% endfor %}
+        
 {% endblock content %}
     
