@@ -1,21 +1,57 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block content %}
-    <h2>weekly plan</h2>
-    {% for meal in meals %}
-        <h4>{{meal.get_day_display}}</h4>
-        <h5>{{meal.get_slot_display}}</h5>
-        <p>{{meal.recipe.title}} </p>
-    {% endfor %}
+<div class="container my-5">
+  <h2 class="mb-4 text-primary border-bottom pb-2">Weekly Meal Plan</h2>
+  <div class="table-responsive">
+    <table class="table table-striped table-dark table-bordered align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Day</th>
+          <th scope="col">Breakfast</th>
+          <th scope="col">Lunch</th>
+          <th scope="col">Dinner</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for code,label in meals.0.DayOfWeek.choices %}
+          <tr>
+            <th scope="row">{{ label }}</th>
+            {% for slot_code,slot_label in meals.0.MealSlot.choices %}
+              <td>
+                {% for meal in meals %}
+                  {% if meal.day == code and meal.slot == slot_code %}
+                    <a href="{% url 'myApp:recipe_detail' meal.recipe.id %}">{{ meal.recipe.title }}</a>
+                  {% endif %}
+                {% empty %}
+                  <span class="text-muted">—</span>
+                {% endfor %}
+              </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
-    <a class="my-5" href="{% url 'myApp:add_meal_plan' %}">Add a Meal</a>
-   
-    <h2>shpping list</h2>
-    
-    {% for amount, ingredient in shopping_list %}
-        <h4>{{amount}} X {{ingredient}}</h4>
-    {% endfor %}
-        
+  <div class="row">
+
+    <div class="col-md-4">
+      <h2 class="mt-5 mb-3 text-primary border-bottom pb-2">Shopping List</h2>
+      <ul class="list-group">
+        {% for amount, ingredient in shopping_list %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{ ingredient }}</span>
+            <span class="badge bg-primary rounded-pill">{{ amount }}</span>
+          </li>
+        {% empty %}
+          <li class="list-group-item text-muted">No items needed.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  <div class="col-md-8"></div>
+  </div>
+
+</div>
 {% endblock content %}
-    
