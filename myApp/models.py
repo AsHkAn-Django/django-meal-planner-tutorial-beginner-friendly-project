@@ -44,7 +44,7 @@ class RecipeIngredient(models.Model):
     order = models.PositiveIntegerField()  
 
     class Meta:
-        unique_together = (('recipe', 'ingredient'),)
+        unique_together = (('recipe', 'ingredient', 'order'),)
         ordering = ['order'] 
 
     def __str__(self):

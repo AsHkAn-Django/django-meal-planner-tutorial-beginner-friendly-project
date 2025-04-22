@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 {% load django_bootstrap5 %}
 <html lang="en">
@@ -6,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe Library</title>
     {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-2">
@@ -23,6 +25,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'myApp:add_recipe' %}">Add Recipe</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'myApp:add_recipe_ingredient' %}">Add Ingredient Amount</a>
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">

@@ -19,7 +19,7 @@
                     {% for ingredient in recipe.ingredients.all %}
                         <div class="col">
                             <div class="card border-light shadow-sm h-100">
-                                <img src="{{ ingredient.picture.url }}" class="card-img-top" alt="{{ ingredient.title }}" style="max-height: 250px; object-fit: cover;">
+                                <img src="{{ ingredient.picture.url }}" class="card-img-top fixed-img" alt="{{ ingredient.title }}">
                                 <div class="card-body">
                                     <h5 class="card-title text-primary">{{ ingredient.title }}</h5>
                                     <p class="card-text text-muted">Use this ingredient for preparing the recipe.</p>

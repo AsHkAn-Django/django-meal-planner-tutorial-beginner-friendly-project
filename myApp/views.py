@@ -89,18 +89,21 @@ class RatingFormView(LoginRequiredMixin, generic.FormView):
     
     
     
-    class AddRecipeIngredientView(generic.CreateView):
-        model = RecipeIngredient
-        form_class = RecipeIngredientForm
-        template_name = "myApp/add_recipe_ingredient.html"
-        success_url = reverse_lazy('myApp:add_recipe_ingredient')
+class AddRecipeIngredientView(generic.CreateView):
+    model = RecipeIngredient
+    form_class = RecipeIngredientForm
+    template_name = "myApp/add_recipe_ingredient.html"
+    success_url = reverse_lazy('myApp:add_recipe_ingredient')
+    
+    def form_valid(self, form):
+        ingredient_name = form.cleaned_data.get('ingredient')
+        if RecipeIngredient.objects.filter(ingredient__title__iexact=ingredient_name).exists():
+            form.add_error('ingredient', 'This ingridient already exists.')
+            messages.warning(self.request, 'Duplicate ingredient!')
+            return self.form_invalid(form)
+        recipe_name = form.cleaned_data.get('recipe')
+        form.instance.order = len(RecipeIngredient.objects.filter(recipe__title__iexact=recipe_name))
         
-        def form_valid(self, form):
-            ingredient_name = form.cleaned_data.get('ingredient')
-            if RecipeIngredient.objects.filter(ingredient__title__iexact=ingredient_name).exists():
-                form.add_error('title', 'This ingridient already exists.')
-                messages.warning(self.request, 'Duplicate ingredient!')
-                return self.form_invalid(form)
-            # If the form was valid show the user a success message.
-            messages.success(self.request, 'The ingredient and amount have been added successfully.')
-            return super().form_valid(form)
+        # If the form was valid show the user a success message.
+        messages.success(self.request, 'The ingredient and amount have been added successfully.')
+        return super().form_valid(form)
