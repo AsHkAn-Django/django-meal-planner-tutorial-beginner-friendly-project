@@ -29,6 +29,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'myApp:add_recipe_ingredient' %}">Add Ingredient Amount</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'myApp:add_meal_plan' %}">Add MealPlan</a>
+                </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{user.username}}</a>

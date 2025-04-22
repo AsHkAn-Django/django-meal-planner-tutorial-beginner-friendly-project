@@ -5,8 +5,8 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
-from .models import Ingredient, Recipe, Rating, RecipeIngredient
-from .forms import IngredientForm, RecipeForm, RatingForm, RecipeIngredientForm
+from .models import Ingredient, Recipe, Rating, RecipeIngredient, MealPlan
+from .forms import IngredientForm, RecipeForm, RatingForm, RecipeIngredientForm, MealPlanForm
 
 
 
@@ -106,4 +106,17 @@ class AddRecipeIngredientView(generic.CreateView):
         
         # If the form was valid show the user a success message.
         messages.success(self.request, 'The ingredient and amount have been added successfully.')
+        return super().form_valid(form)
+    
+    
+
+class AddMealPlanView(generic.CreateView):
+    model = MealPlan
+    form_class = MealPlanForm
+    template_name = "myApp/add_meal_plan.html"
+    success_url = reverse_lazy('myApp:add_meal_plan')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, 'The recipe has been added to the plan successfully.')
         return super().form_valid(form)

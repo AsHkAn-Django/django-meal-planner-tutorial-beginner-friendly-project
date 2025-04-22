@@ -81,7 +81,9 @@ class MealPlan(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="meal_plans_recipe")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="meal_plans_user")
     day = models.CharField(max_length=3, choices=DayOfWeek.choices)
-    slot    = models.CharField(max_length=2, choices=MealSlot.choices)
+    slot = models.CharField(max_length=2, choices=MealSlot.choices)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)    
     
+    def __str__(self):
+        return f"{self.user.username} added {self.recipe.title} to {self.day}"

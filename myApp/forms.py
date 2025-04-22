@@ -1,5 +1,5 @@
 from django import forms
-from .models import Ingredient, Recipe, Rating, RecipeIngredient
+from .models import Ingredient, Recipe, Rating, RecipeIngredient, MealPlan
 
 
 class IngredientForm(forms.ModelForm):
@@ -34,11 +34,8 @@ class RatingForm(forms.ModelForm):
         }
         
         
+class MealPlanForm(forms.ModelForm):
+    class Meta:
+        model = MealPlan
+        fields = ['recipe', 'day', 'slot']
         
-        
-# TODO:  First user fills the recipe form
-# then we send him to the next page which is the igredients with amounts(RecipeIngredient)
-# In here user can search the ingredient and write the amount for it and add
-# if the ingredient is not there user can go to another page and add it
-# for everytime the user submits the ingredient form the oder will be equal to the length of RecipeIngredient objects 
-# so it starts from 0 to ++
