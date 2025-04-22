@@ -1,5 +1,5 @@
 from django import forms
-from .models import Ingredient, Recipe, Rating
+from .models import Ingredient, Recipe, Rating, RecipeIngredient
 
 
 class IngredientForm(forms.ModelForm):
@@ -11,7 +11,13 @@ class IngredientForm(forms.ModelForm):
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = "__all__"
+        exclude = ['ingredients',]
+        
+
+class RecipeIngredientForm(forms.ModelForm):
+    class Meta:
+        model = RecipeIngredient
+        exclude = ['order',]
         
 
 class RatingForm(forms.ModelForm):
