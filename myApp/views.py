@@ -1,11 +1,13 @@
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.views import generic
-from .models import Ingredient, Recipe, Rating
-from .forms import IngredientForm, RecipeForm, RatingForm
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+
+from .models import Ingredient, Recipe, Rating, RecipeIngredient
+from .forms import IngredientForm, RecipeForm, RatingForm, RecipeIngredientForm
+
 
 
 class IndexView(generic.ListView):
@@ -41,7 +43,7 @@ class AddRecipeView(generic.CreateView):
     model = Recipe
     form_class = RecipeForm
     template_name = "myApp/add_recipe.html"
-    success_url = reverse_lazy('myApp:home')
+    success_url = reverse_lazy('myApp:add_recipe_ingredient')
 
     def form_valid(self, form):
         # If the form was valid show the user a success message.        
@@ -84,3 +86,21 @@ class RatingFormView(LoginRequiredMixin, generic.FormView):
         recipe_id = self.kwargs.get('pk')
         context['recipe'] = get_object_or_404(Recipe, id=recipe_id)
         return context
+    
+    
+    
+    class AddRecipeIngredientView(generic.CreateView):
+        model = RecipeIngredient
+        form_class = RecipeIngredientForm
+        template_name = "myApp/add_recipe_ingredient.html"
+        success_url = reverse_lazy('myApp:add_recipe_ingredient')
+        
+        def form_valid(self, form):
+            ingredient_name = form.cleaned_data.get('ingredient')
+            if RecipeIngredient.objects.filter(ingredient__title__iexact=ingredient_name).exists():
+                form.add_error('title', 'This ingridient already exists.')
+                messages.warning(self.request, 'Duplicate ingredient!')
+                return self.form_invalid(form)
+            # If the form was valid show the user a success message.
+            messages.success(self.request, 'The ingredient and amount have been added successfully.')
+            return super().form_valid(form)

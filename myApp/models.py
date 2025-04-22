@@ -45,7 +45,7 @@ class RecipeIngredient(models.Model):
 
     class Meta:
         unique_together = (('recipe', 'ingredient'),)
-        ordering = ['order']  # Ensure the default ordering by the order field
+        ordering = ['order'] 
 
     def __str__(self):
         return f"{self.amount} {self.ingredient.title} in {self.recipe.title}"
