@@ -120,3 +120,11 @@ class AddMealPlanView(generic.CreateView):
         form.instance.user = self.request.user
         messages.success(self.request, 'The recipe has been added to the plan successfully.')
         return super().form_valid(form)
+    
+    
+class WeeklyRecipePlan(generic.ListView):
+    model = MealPlan
+    template_name = 'myApp/weekly_recipe_plan.html'
+    ordering = ['day']
+    context_object_name = 'meals'
+    

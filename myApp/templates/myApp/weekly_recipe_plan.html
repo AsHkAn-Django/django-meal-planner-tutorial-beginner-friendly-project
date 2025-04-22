@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    
+    {% for meal in meals %}
+        <h4>{{meal.get_day_display}}</h4>
+        <h5>{{meal.get_slot_display}}</h5>
+        <p>{{meal.recipe.title}} </p>
+    {% endfor %}
+
+    <a class="my-5" href="{% url 'myApp:add_meal_plan' %}">Add a Meal</a>
+    
+{% endblock content %}
+    

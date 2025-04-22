@@ -59,7 +59,7 @@ class Rating(models.Model):
     review = models.CharField(max_length=250, null=True, blank=True)
     
     def __str__(self):
-        return f"{self.user.username} rateed {self.rate} to {self.recipe.title}" 
+        return f"{self.user.username} rated {self.rate} to {self.recipe.title}" 
 
 
 class MealPlan(models.Model):
