@@ -1,39 +1,54 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="text-center mb-5">
+        <h2 class="display-4 text-primary">{{ recipe.title }}</h2>
+        <img
+          src="{{ recipe.picture.url }}"
+          class="rounded img-fluid mb-4"
+          alt="{{ recipe.title }}"
+          style="max-height: 400px; object-fit: cover"
+        />
+      </div>
 
-{% block content %}
-    <div class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="text-center mb-5">
-                    <h2 class="display-4 text-primary">{{ recipe.title }}</h2>
-                    <img src="{{ recipe.picture.url }}" class="rounded img-fluid mb-4" alt="{{ recipe.title }}" style="max-height: 400px; object-fit: cover;">
-                </div>
+      <div class="bg-light p-4 rounded shadow-sm mb-5">
+        <h3 class="text-success mb-3">Instructions:</h3>
+        <p class="lead">{{ recipe.instruction }}</p>
+      </div>
 
-                <div class="bg-light p-4 rounded shadow-sm mb-5">
-                    <h3 class="text-success mb-3">Instructions:</h3>
-                    <p class="lead">{{ recipe.instruction }}</p>
-                </div>
-
-                <h4 class="text-center text-secondary mb-4">Ingredients</h4>
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                    {% for ingredient in recipe.recipe_ingredients.all %}
-                        <div class="col">
-                            <div class="card border-light shadow-sm h-100">
-                                <img src="{{ ingredient.ingredient.picture.url }}" class="card-img-top fixed-img" alt="{{ ingredient.title }}">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">{{ ingredient.ingredient.title }}</h5>
-                                    <h6 class="card-title text-secondary">{{ ingredient.amount }}</h6>
-                                    <p class="card-text text-muted">Use this ingredient for preparing the recipe.</p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-
-                <div class="text-center mt-5">
-                    <a href="{% url 'myApp:home' %}" class="btn btn-outline-primary btn-lg px-5 py-3">Back to Recipes</a>
-                </div>
+      <h4 class="text-center text-secondary mb-4">Ingredients</h4>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for ingredient in recipe.recipe_ingredients.all %}
+        <div class="col">
+          <div class="card border-light shadow-sm h-100">
+            <img
+              src="{{ ingredient.ingredient.picture.url }}"
+              class="card-img-top fixed-img"
+              alt="{{ ingredient.title }}"
+            />
+            <div class="card-body">
+              <h5 class="card-title text-primary">
+                {{ ingredient.ingredient.title }}
+              </h5>
+              <h6 class="card-title text-secondary">{{ ingredient.amount }}</h6>
+              <p class="card-text text-muted">
+                Use this ingredient for preparing the recipe.
+              </p>
             </div>
+          </div>
         </div>
+        {% endfor %}
+      </div>
+
+      <div class="text-center mt-5">
+        <a
+          href="{% url 'myApp:home' %}"
+          class="btn btn-outline-primary btn-lg px-5 py-3"
+          >Back to Recipes</a
+        >
+      </div>
     </div>
+  </div>
+</div>
 {% endblock content %}

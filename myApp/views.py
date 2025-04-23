@@ -135,7 +135,3 @@ class WeeklyRecipePlan(generic.ListView):
         return context               
     
     
-    # TODO: calculate the total amount of groceries and add them to an object in get context
-    # get all the objects of mealplans for this user
-    # get all the ingredients and amounts 
-    # list them all and display them in order

@@ -1,7 +1,4 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <div class="container my-5">
   <h2 class="mb-4 text-primary border-bottom pb-2">Weekly Meal Plan</h2>
   <div class="table-responsive">
@@ -16,42 +13,42 @@
       </thead>
       <tbody>
         {% for code,label in meals.0.DayOfWeek.choices %}
-          <tr>
-            <th scope="row">{{ label }}</th>
-            {% for slot_code,slot_label in meals.0.MealSlot.choices %}
-              <td>
-                {% for meal in meals %}
-                  {% if meal.day == code and meal.slot == slot_code %}
-                    <a href="{% url 'myApp:recipe_detail' meal.recipe.id %}">{{ meal.recipe.title }}</a>
-                  {% endif %}
-                {% empty %}
-                  <span class="text-muted">—</span>
-                {% endfor %}
-              </td>
+        <tr>
+          <th scope="row">{{ label }}</th>
+          {% for slot_code,slot_label in meals.0.MealSlot.choices %}
+          <td>
+            {% for meal in meals %} 
+              {% if meal.day == code and meal.slot == slot_code %}
+                <a href="{% url 'myApp:recipe_detail' meal.recipe.id %}">{{ meal.recipe.title }}</a>
+              {% endif %} 
+              {% empty %}
+              <span class="text-muted">—</span>
             {% endfor %}
-          </tr>
+          </td>
+          {% endfor %}
+        </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
 
   <div class="row">
-
     <div class="col-md-4">
       <h2 class="mt-5 mb-3 text-primary border-bottom pb-2">Shopping List</h2>
       <ul class="list-group">
         {% for amount, ingredient in shopping_list %}
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>{{ ingredient }}</span>
-            <span class="badge bg-primary rounded-pill">{{ amount }}</span>
-          </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          <span>{{ ingredient }}</span>
+          <span class="badge bg-primary rounded-pill">{{ amount }}</span>
+        </li>
         {% empty %}
-          <li class="list-group-item text-muted">No items needed.</li>
+        <li class="list-group-item text-muted">No items needed.</li>
         {% endfor %}
       </ul>
     </div>
-  <div class="col-md-8"></div>
+    <div class="col-md-8"></div>
   </div>
-
 </div>
 {% endblock content %}
